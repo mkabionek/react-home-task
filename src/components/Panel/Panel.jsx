@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useCallback } from 'react';
 import styled from 'styled-components';
 
 
 const Container = styled.div`
-  margin: 10px 0;
+  margin-bottom: 10px;
+  .panel-container--wide & {
+    margin-bottom: 25px;
+  }
 `;
 
 const Head = styled.div`
@@ -18,13 +21,13 @@ const Body = styled.div`
   color: #474747;
 `;
 
-export function Panel({ title, children }) {
-    const [open, setOpen] = useState(false);
+export function Panel({ title, children, id, open, onClick }) {
+  const handleClick = useCallback(() => onClick(id), [id, onClick]);
 
-    return (
-        <Container>
-            <Head onClick={() => setOpen(!open)}>{ title }</Head>
-            { open && <Body>{ children }</Body> }
-        </Container>
-    )
+  return (
+    <Container>
+      <Head onClick={handleClick}>{title}</Head>
+      { open && <Body>{children}</Body>}
+    </Container >
+  );
 }
